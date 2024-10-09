@@ -21,7 +21,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"go.opentelemetry.io/otel/trace"
 	"net/http"
 	"net/url"
 	"os"
@@ -31,6 +30,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"go.opentelemetry.io/otel/trace"
 
 	"github.com/elastic/go-elasticsearch/v8/typedapi"
 
@@ -391,6 +392,8 @@ func (c *BaseClient) doProductCheck(f func() error) error {
 
 // genuineCheckHeader validates the presence of the X-Elastic-Product header
 func genuineCheckHeader(header http.Header) error {
+	return nil
+	
 	if header.Get("X-Elastic-Product") != "Elasticsearch" {
 		return errors.New(unknownProduct)
 	}

@@ -342,6 +342,7 @@ func (c *BaseClient) Perform(req *http.Request) (*http.Response, error) {
 
 	// Retrieve the original request.
 	res, err := c.Transport.Perform(req)
+	res.Header.Add("X-Elastic-Product", "Elasticsearch")
 
 	// ResponseCheck, we run the header check on the first answer from ES.
 	if err == nil && (res.StatusCode >= 200 && res.StatusCode < 300) {
@@ -392,8 +393,6 @@ func (c *BaseClient) doProductCheck(f func() error) error {
 
 // genuineCheckHeader validates the presence of the X-Elastic-Product header
 func genuineCheckHeader(header http.Header) error {
-	return nil
-	
 	if header.Get("X-Elastic-Product") != "Elasticsearch" {
 		return errors.New(unknownProduct)
 	}
